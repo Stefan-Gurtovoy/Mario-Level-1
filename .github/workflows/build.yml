@@ -1,0 +1,36 @@
+name: Build Executable Folder
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.2.2
+
+    - name: Set up Python
+      uses: actions/setup-python@v5.3.0
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install pygame pyinstaller
+
+    - name: Build EXE Folder
+      run: |
+        pyinstaller --onedir --noconsole mario_level_1.py
+
+    - name: Prepare Archive
+      run: |
+        mkdir release
+        xcopy /E /I dist\mario_level_1 release\game
+        if (Test-Path resources) { xcopy /E /I resources release\game\resources }
+        if (Test-Path data) { xcopy /E /I data release\game\data }
+      shell: powershell
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4.6.0
+      with:
+        name: Mario-Level-1-Game
+        path: release/
