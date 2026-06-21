@@ -16,7 +16,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 pg.init()
 pg.event.set_allowed([pg.KEYDOWN, pg.KEYUP, pg.QUIT])
 pg.display.set_caption(c.ORIGINAL_CAPTION)
-SCREEN = pg.display.set_mode(c.SCREEN_SIZE)
+pg.display.set_mode(c.SCREEN_SIZE, pg.SCALED | pg.RESIZABLE)
 SCREEN_RECT = SCREEN.get_rect()
 
 
